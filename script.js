@@ -11,6 +11,7 @@ const Gameboard = (() => {
     const placeMark = function (position,mark) {
         if (gameboard[position] == "" && 0 <= position && position < 9) {
             gameboard[position] = mark;
+
         } else {
             return false;
         }
@@ -31,25 +32,15 @@ function Players(name, mark) {
 
 };
 
-const displayBoard = () => {
-    let board = Gameboard.getGameboard();
-    
-    console.log(` ${board[0]} | ${board[1]} | ${board[2]} `)
-    console.log('---+---+---');
-    console.log(` ${board[3]} | ${board[4]} | ${board[5]} `)
-    console.log('---+---+---');
-    console.log(` ${board[6]} | ${board[7]} | ${board[8]} `)
-
-};
 
 const Controller = (() => {
     const p1 = Players("Tushar", "X");
     const p2 = Players("Adarsh", "O");
     
     const winConditions = [[0,1,2], [3,4,5], [6,7,8],
-                           [0,3,6], [1,4,7], [2,5,8],
-                           [0,4,8], [2,4,6]];
-
+    [0,3,6], [1,4,7], [2,5,8],
+    [0,4,8], [2,4,6]];
+    
     let currentPlayer = p1;
     
     const playMove = function(position) {
@@ -57,14 +48,16 @@ const Controller = (() => {
             Gameboard.placeMark(position,currentPlayer.getMark())
         ) {
             console.clear();
-            displayBoard();
-
+            render();
+            
             if (isWin()) {
                 console.log(`${currentPlayer.getName()} with mark "${currentPlayer.getMark()}" wins!`);
+                Gameboard.resetBoard();
             } else if (isDraw()) {
                 console.log('it is draw');
+                Gameboard.resetBoard();
             }
-
+            
             if (currentPlayer == p1) {
                 currentPlayer = p2;
             } else {
@@ -75,10 +68,10 @@ const Controller = (() => {
             console.log('RETRY!!');
         } 
     };
-
+    
     const isWin = () => {
         let board = Gameboard.getGameboard();
-
+        
         for (let conditions in winConditions) {
             const condition = winConditions[conditions];
             let a = condition[0];
@@ -86,18 +79,17 @@ const Controller = (() => {
             let c = condition[2];
             
             if ((board[a] == board[b]) && 
-                (board[b] == board[c]) && 
-                (board[a] !== "")) {
+            (board[b] == board[c]) && 
+            (board[a] !== "")) {
                 return true;
-            } else {
-                return false;
-            }
+            };
         };
+        return false;
     };
-
+    
     const isDraw = () => {
         let board = Gameboard.getGameboard();
-
+        
         for (let i = 0; i < 9; i++){
             if (board[i] == "") {
                 return false;
@@ -105,22 +97,38 @@ const Controller = (() => {
         };
         return true;
     }
-
+    
     return {playMove}    
 })();
 
-const boxes = document.getElementsByClassName('box');
-for (let box of boxes) {
+const render = () => {
+    let board = Gameboard.getGameboard();
+
+    boxes[0].textContent = board[0];
+    boxes[1].textContent = board[1];
+    boxes[2].textContent = board[2];
+    boxes[3].textContent = board[3];
+    boxes[4].textContent = board[4];
+    boxes[5].textContent = board[5];
+    boxes[6].textContent = board[6];
+    boxes[7].textContent = board[7];
+    boxes[8].textContent = board[8];
+
+};
+
+const boxes = document.querySelectorAll('.box');
+boxes.forEach((box,i) => {
     box.addEventListener("click", function() {
-        console.log(box)
-    })
-}
+        Controller.playMove(i)
+    });
+}) 
+
 
 // Controller.playMove(0); //p1
 // Controller.playMove(2); //p2
 // Controller.playMove(1); //p1
 // Controller.playMove(3); //p2 
-// Controller.playMove(4); //p1
+// Controller.playMove(4); //p1z
 // Controller.playMove(7); //p2
 // Controller.playMove(5);
 // Controller.playMove(8);
