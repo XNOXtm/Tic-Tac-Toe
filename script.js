@@ -109,6 +109,13 @@ const Controller = (() => {
     return {playMove}    
 })();
 
+const boxes = document.getElementsByClassName('box');
+for (let box of boxes) {
+    box.addEventListener("click", function() {
+        console.log(box)
+    })
+}
+
 // Controller.playMove(0); //p1
 // Controller.playMove(2); //p2
 // Controller.playMove(1); //p1
