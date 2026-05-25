@@ -57,7 +57,7 @@ const Controller = (() => {
                 Render.displayBoard();
                 Render.showDraw();
                 Render.removeOverlay();
-            }
+            };
             
             if (currentPlayer == p1) {
                 currentPlayer = p2;
@@ -65,8 +65,7 @@ const Controller = (() => {
                 currentPlayer = p1;
             }
         } else {
-            console.log('The position in invalid or already taken!');
-            console.log('RETRY!!');
+            Render.invalidMove(position);
         } 
     };
     
@@ -131,9 +130,18 @@ const Render = (() => {
             Gameboard.resetBoard();
             displayBoard();
         });
-    }
+    };
 
-    return {displayBoard, showWinner,showDraw,removeOverlay}
+    const invalidMove = (position) => {
+        const invalidBox = boxes[position];
+        invalidBox.style.backgroundColor = "rgba(255, 0, 0, 0.2)"
+
+        setTimeout(() => {
+            invalidBox.style.backgroundColor = "";
+        }, 300);
+    };
+
+    return {displayBoard, showWinner, showDraw, removeOverlay, invalidMove}
 })();
 
 const boxes = document.querySelectorAll('.box');
@@ -143,17 +151,6 @@ boxes.forEach((box,i) => {
     });
 }) 
 
-
-
-// Controller.playMove(0); //p1
-// Controller.playMove(2); //p2
-// Controller.playMove(1); //p1
-// Controller.playMove(3); //p2 
-// Controller.playMove(4); //p1z
-// Controller.playMove(7); //p2
-// Controller.playMove(5);
-// Controller.playMove(8);
-// Controller.playMove(6);
 
 
 
