@@ -146,10 +146,16 @@ const Render = (() => {
 
 const boxes = document.querySelectorAll('.box');
 boxes.forEach((box,i) => {
-    box.addEventListener("click", function() {
+    box.addEventListener("click", () => {
         Controller.playMove(i);
     });
-}) 
+});
+
+const resetbtn = document.getElementById('resetbtn');
+resetbtn.addEventListener('click', () => {
+    Gameboard.resetBoard();
+    Render.displayBoard();
+})
 
 
 
