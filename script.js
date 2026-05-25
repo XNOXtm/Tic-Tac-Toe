@@ -47,15 +47,16 @@ const Controller = (() => {
         if (
             Gameboard.placeMark(position,currentPlayer.getMark())
         ) {
-            console.clear();
-            render();
+            Render.displayBoard();
             
             if (isWin()) {
-                console.log(`${currentPlayer.getName()} with mark "${currentPlayer.getMark()}" wins!`);
-                Gameboard.resetBoard();
+                Render.displayBoard();
+                Render.showWinner(currentPlayer.getName());
+                Render.removeOverlay();
             } else if (isDraw()) {
-                console.log('it is draw');
-                Gameboard.resetBoard();
+                Render.displayBoard();
+                Render.showDraw();
+                Render.removeOverlay();
             }
             
             if (currentPlayer == p1) {
@@ -101,27 +102,47 @@ const Controller = (() => {
     return {playMove}    
 })();
 
-const render = () => {
-    let board = Gameboard.getGameboard();
+const Render = (() => {
+    const displayBoard = () => {
+        let board = Gameboard.getGameboard();
+        for(let i=0; i<9; i++) {
+            boxes[i].textContent = board[i];
+        };
+    };
 
-    boxes[0].textContent = board[0];
-    boxes[1].textContent = board[1];
-    boxes[2].textContent = board[2];
-    boxes[3].textContent = board[3];
-    boxes[4].textContent = board[4];
-    boxes[5].textContent = board[5];
-    boxes[6].textContent = board[6];
-    boxes[7].textContent = board[7];
-    boxes[8].textContent = board[8];
+    const showWinner = (name) => {
+        const showWin = document.getElementById('overlay');
+        const winMsg = document.getElementById('overlayContent');
+        winMsg.textContent = `${name} YOU WIN`;
+        showWin.style.display = 'block';
+    };
 
-};
+    const showDraw = () => {
+        const drawOverlay = document.getElementById('overlay');
+        const drawMsg = document.getElementById('overlayContent');
+        drawMsg.textContent = "IT IS A DRAW";
+        drawOverlay.style.display = 'block';
+    };
+
+    const removeOverlay = () => {
+        const overlay = document.getElementById('overlay');
+        overlay.addEventListener(('click'), function() {
+            overlay.style.display = 'none';
+            Gameboard.resetBoard();
+            displayBoard();
+        });
+    }
+
+    return {displayBoard, showWinner,showDraw,removeOverlay}
+})();
 
 const boxes = document.querySelectorAll('.box');
 boxes.forEach((box,i) => {
     box.addEventListener("click", function() {
-        Controller.playMove(i)
+        Controller.playMove(i);
     });
 }) 
+
 
 
 // Controller.playMove(0); //p1
