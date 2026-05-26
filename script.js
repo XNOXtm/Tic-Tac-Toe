@@ -32,7 +32,6 @@ function Players(name, mark) {
 
 };
 
-
 const Controller = (() => {
     const p1 = Players("Tushar", "X");
     const p2 = Players("Adarsh", "O");
@@ -53,17 +52,20 @@ const Controller = (() => {
                 Render.displayBoard();
                 Render.showWinner(currentPlayer.getName());
                 Render.removeOverlay();
+                currentPlayer = p1;
             } else if (isDraw()) {
                 Render.displayBoard();
                 Render.showDraw();
                 Render.removeOverlay();
-            };
-            
-            if (currentPlayer == p1) {
-                currentPlayer = p2;
-            } else {
                 currentPlayer = p1;
+            }else {
+                if (currentPlayer == p1) {
+                    currentPlayer = p2;
+                } else {
+                    currentPlayer = p1;
+                };
             }
+            
         } else {
             Render.invalidMove(position);
         } 
@@ -100,6 +102,8 @@ const Controller = (() => {
     
     return {playMove}    
 })();
+
+
 
 const Render = (() => {
     const displayBoard = () => {
@@ -157,11 +161,18 @@ resetbtn.addEventListener('click', () => {
     Render.displayBoard();
 })
 
+const myForm = document.getElementById('getPlayers');
+myForm.addEventListener(("submit"), function(e) {
+    e.preventDefault();
 
+    const playerOneName = document.getElementById('player1Name').value;
+    const playerTwoName = document.getElementById('player2Name').value;
 
-
-
-
+    const formContainer = document.getElementById('playerForm');
+    const gameboardContainer = document.getElementById('gameboard');
+    gameboardContainer.style.display = 'block';
+    formContainer.style.display = "none";
+});
 
 
 

@@ -51,6 +51,10 @@ footer {
     box-shadow: 0 0 5px 2px #cccccc;
 }
 
+#gameboard {
+    display: none;
+}
+
 .box {
     display: flex;
     justify-content: center;
@@ -126,3 +130,47 @@ footer {
 #resetbtn:active {
     background-color: #ebe9e9;
 }
+
+#playerForm {
+    position: fixed;
+    background-color: #fffbfb;
+    box-shadow: 0 0 5px 2px #cccccc;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+#getPlayers {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+#getPlayers h1 {
+    text-align: center;
+}
+
+#getPlayers input {
+    margin: 5px 0 25px 0;
+    background: #f1f1f1;
+    border-radius: 10px;
+    padding: 5px 10px;
+}
+#getPlayers input:focus {
+    background-color: #ddd;
+    outline: none;
+}
+#submitBtn {
+    padding: 5px;
+    font-size: 25px;
+    border-radius: 10px;
+    margin-top: 20px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+}
+#submitBtn:hover {
+    background-color: #e2dfdf;
+}
+#submitBtn:active {
+    background-color: #fffcfc;
+}
+
