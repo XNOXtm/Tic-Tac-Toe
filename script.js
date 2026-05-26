@@ -32,9 +32,9 @@ function Players(name, mark) {
 
 };
 
-const Controller = (() => {
-    const p1 = Players("Tushar", "X");
-    const p2 = Players("Adarsh", "O");
+const Controller = (p1Name,p2Name) => {
+    const p1 = Players(p1Name, "X");
+    const p2 = Players(p2Name, "O");
     
     const winConditions = [[0,1,2], [3,4,5], [6,7,8],
     [0,3,6], [1,4,7], [2,5,8],
@@ -101,9 +101,9 @@ const Controller = (() => {
     }
     
     return {playMove}    
-})();
+};
 
-
+let game;
 
 const Render = (() => {
     const displayBoard = () => {
@@ -151,7 +151,7 @@ const Render = (() => {
 const boxes = document.querySelectorAll('.box');
 boxes.forEach((box,i) => {
     box.addEventListener("click", () => {
-        Controller.playMove(i);
+        game.playMove(i);
     });
 });
 
@@ -172,11 +172,10 @@ myForm.addEventListener(("submit"), function(e) {
     const gameboardContainer = document.getElementById('gameboard');
     gameboardContainer.style.display = 'block';
     formContainer.style.display = "none";
+
+    game = Controller(playerOneName,playerTwoName)
+
 });
-
-
-
-
 
 
 
